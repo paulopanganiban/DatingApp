@@ -22,7 +22,7 @@ namespace DatingApp.API.Controllers
         }
         // GET api/values
         //for the meantime
-        [AllowAnonymous]
+   
         [HttpGet]
         // public ActionResult<IEnumerable<string>> Get()
         //return http responses to the client. just returning strings, we can return ok
