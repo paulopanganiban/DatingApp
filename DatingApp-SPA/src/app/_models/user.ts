@@ -15,6 +15,6 @@ export interface User {
     // ? for optional. elvis operator
     interests?: string;
     introduction?: string;
-    lookingfor?: string;
+    lookingFor?: string;
     photos?: Photo[];
 }
