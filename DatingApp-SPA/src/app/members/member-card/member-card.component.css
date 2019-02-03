@@ -12,6 +12,9 @@
 .card-img-wrapper {
     overflow: hidden;
     position: relative;
+    max-width: 100%;
+    height: 150px;
+    border-radius: 4px;
 }
 .member-icons {
     position: absolute;
