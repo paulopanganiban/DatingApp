@@ -4,6 +4,7 @@ export interface User {
     // replicate what is returning for our user.
     id: number;
     username: string;
+    department: string;
     type: string;
     knownAs: string;
     age: number;

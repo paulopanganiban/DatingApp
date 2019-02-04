@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './_services/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from './_models/user';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,12 @@ import { User } from './_models/user';
 })
 export class AppComponent implements OnInit {
   jwtHelper = new JwtHelperService();
+  constructor(private authService: AuthService,
+    private titleService: Title) {}
 
-  constructor(private authService: AuthService) {}
 
   ngOnInit() {
+    this.titleService.setTitle('MCL Appointment');
     const token = localStorage.getItem('token');
     const user: User = JSON.parse(localStorage.getItem('user'));
     if (token) {

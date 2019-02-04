@@ -47,6 +47,12 @@ namespace DatingApp.API.Data
             var users = await _context.Users.Include(p => p.Photos).ToListAsync();
             return users;
         }
+           public async Task<IEnumerable<User>> GetUsersByDept()
+        {
+            // returns list of users
+            var users = await _context.Users.Where(p => p.Department == "CCIS?").Include(p => p.Photos).ToListAsync();
+            return users;
+        }
 
         public async Task<bool> SaveAll()
         {

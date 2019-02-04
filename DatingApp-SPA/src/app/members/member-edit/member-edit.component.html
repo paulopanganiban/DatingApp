@@ -41,7 +41,7 @@
 
           <div>
             <strong>Member since:</strong>
-            <p>{{ user.created }}</p>
+            <p>{{ user.created | date: 'mediumDate' }}</p>
           </div>
         </div>
 
@@ -62,12 +62,12 @@
                 class="form-control"
                 [(ngModel)]="user.introduction"
               ></textarea>
-              <h4>Looking for</h4>
+              <h4>Department/Looking For</h4>
               <textarea
-                name="lookingFor"
+                name="department"
                 rows="6"
                 class="form-control"
-                [(ngModel)]="user.lookingFor"
+                [(ngModel)]="user.department"
               ></textarea>
               <h4>Interests</h4>
               <textarea
