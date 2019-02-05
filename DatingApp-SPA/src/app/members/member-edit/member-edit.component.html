@@ -36,7 +36,7 @@
 
           <div>
             <strong>Last Active:</strong>
-            <p>{{ user.lastActive }}</p>
+            <p>{{ user.lastActive | timeAgo }}</p>
           </div>
 
           <div>
@@ -62,35 +62,35 @@
                 class="form-control"
                 [(ngModel)]="user.introduction"
               ></textarea>
-              <h4>Department/Looking For</h4>
-              <textarea
+              <br>
+              <h4>Department</h4>
+             
+
+              <select class="form-control ml-1" style="width: 130px" id="department" name="department" [(ngModel)]="user.department">
+                  <option *ngFor="let department of departmentList" [value]="department.value">
+                    {{department.display}}
+                  </option>
+                </select>
+
+
+
+
+
+              <!-- <textarea
                 name="department"
-                rows="6"
+                rows="1"
                 class="form-control"
                 [(ngModel)]="user.department"
-              ></textarea>
-              <h4>Interests</h4>
-              <textarea
-                name="interests"
-                rows="6"
-                class="form-control"
-                [(ngModel)]="user.interests"
-              ></textarea>
-              <h4>Location Details:</h4>
+              ></textarea> -->
+              <br>
+              <h4>Faculty Room Assignment:</h4>
               <div class="form-inline">
-                <label for="city">City</label>
+                <label for="city">Room:&nbsp; </label>
                 <input
                   class="form-control"
                   type="text"
                   name="city"
                   [(ngModel)]="user.city"
-                />
-                <label for="city">Country</label>
-                <input
-                  class="form-control"
-                  type="text"
-                  name="country"
-                  [(ngModel)]="user.country"
                 />
               </div>
             </form>

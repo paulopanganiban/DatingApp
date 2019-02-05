@@ -12,6 +12,8 @@ import { AuthService } from 'src/app/_services/auth.service';
   styleUrls: ['./member-edit.component.css']
 })
 export class MemberEditComponent implements OnInit {
+departmentList = [{value: 'CCIS', display: 'CCIS'},
+                    {value: 'CAS', display: 'CAS'}];
 user: User;
 photoUrl: string;
 @ViewChild('editForm') editForm: NgForm;

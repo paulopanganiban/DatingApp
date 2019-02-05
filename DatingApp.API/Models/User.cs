@@ -29,6 +29,7 @@ namespace DatingApp.API.Models
         public string Interests { get; set; }
 
         public string City { get; set; }
+        // city is faculty ok?
 
         public string Country { get; set; }
         public string Type {get;set;}
