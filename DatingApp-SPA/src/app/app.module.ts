@@ -30,6 +30,7 @@ import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import {TimeAgoPipe} from 'time-ago-pipe';
+import { PhotoScheduleComponent } from './members/photo-schedule/photo-schedule.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -48,7 +49,8 @@ export function tokenGetter() {
       MemberDetailComponent,
       MemberEditComponent,
       PhotoEditorComponent,
-      TimeAgoPipe
+      TimeAgoPipe,
+      PhotoScheduleComponent
    ],
    imports: [
       BrowserModule,

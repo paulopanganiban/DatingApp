@@ -15,6 +15,7 @@ export class MemberEditComponent implements OnInit {
 departmentList = [{value: 'CCIS', display: 'CCIS'},
                     {value: 'CAS', display: 'CAS'}];
 user: User;
+photoSchedule: User[];
 photoUrl: string;
 @ViewChild('editForm') editForm: NgForm;
   constructor(private route: ActivatedRoute,

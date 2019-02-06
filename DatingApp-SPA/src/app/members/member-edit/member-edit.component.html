@@ -1,34 +1,33 @@
 <div class="container mt-4">
   <div class="row">
     <div class="col-sm-4">
+      <h1>Your Profile</h1>
+    </div>
 
-    <h1>Your Profile</h1>
-  </div>
-  
-
-  <div class="col-sm-8">
-    <div *ngIf="editForm.dirty" class="alert alert-info">
-      
+    <div class="col-sm-8">
+      <div *ngIf="editForm.dirty" class="alert alert-info">
         <strong>Information</strong> You have made changes. Any unsaved changes
         will be lost!
-      
+      </div>
     </div>
   </div>
-</div>
   <div class="row">
     <div class="col-sm4">
       <div class="card">
         <img
           class="card-img-top img-thumbnail"
-          src="{{photoUrl || '../../../assets/user.png'}}"
-          alt="{{user.knownAs}}"
+          src="{{ photoUrl || '../../../assets/user.png' }}"
+          alt="{{ user.knownAs }}"
         />
         <div class="card-body">
           <div>
-            <strong>Location:</strong>
-            <p>{{ user.city }}, {{ user.country }}</p>
+            <strong>Faculty Room:</strong>
+            <p>{{ user.city }}</p>
           </div>
-
+          <div>
+              <strong>Department:</strong>
+              <p>{{ user.department }}</p>
+            </div>
           <div>
             <strong>Age:</strong>
             <p>{{ user.age }}</p>
@@ -41,12 +40,18 @@
 
           <div>
             <strong>Member since:</strong>
-            <p>{{ user.created | date: 'mediumDate' }}</p>
+            <p>{{ user.created | date: "mediumDate" }}</p>
           </div>
         </div>
 
         <div class="card-footer">
-          <button [disabled]="!editForm.dirty" form="kahitano" class="btn btn-success w-100">Save changes</button>
+          <button
+            [disabled]="!editForm.dirty"
+            form="kahitano"
+            class="btn btn-success w-100"
+          >
+            Save changes
+          </button>
         </div>
       </div>
     </div>
@@ -54,7 +59,7 @@
       <div class="tab-panel">
         <tabset class="member-tabset">
           <tab heading="Edit Profile">
-            <form #editForm="ngForm" id="kahitano" (ngSubmit)="updateUser()"> 
+            <form #editForm="ngForm" id="kahitano" (ngSubmit)="updateUser()">
               <h4>Description</h4>
               <textarea
                 name="introduction"
@@ -62,19 +67,36 @@
                 class="form-control"
                 [(ngModel)]="user.introduction"
               ></textarea>
-              <br>
+              <br />
+
+
+
+<!-- 
+              <h4>Upload your schedule</h4>
+              <app-photo-editor-schedule
+              [photosSchedule]="user.photos"></app-photo-editor-schedule>
+              <br /> -->
+
+
+
+
+
               <h4>Department</h4>
-             
 
-              <select class="form-control ml-1" style="width: 130px" id="department" name="department" [(ngModel)]="user.department">
-                  <option *ngFor="let department of departmentList" [value]="department.value">
-                    {{department.display}}
-                  </option>
-                </select>
-
-
-
-
+              <select
+                class="form-control ml-1"
+                style="width: 130px"
+                id="department"
+                name="department"
+                [(ngModel)]="user.department"
+              >
+                <option
+                  *ngFor="let department of departmentList"
+                  [value]="department.value"
+                >
+                  {{ department.display }}
+                </option>
+              </select>
 
               <!-- <textarea
                 name="department"
@@ -82,9 +104,11 @@
                 class="form-control"
                 [(ngModel)]="user.department"
               ></textarea> -->
-              <br>
-              <h4>Faculty Room Assignment:</h4>
-              <div class="form-inline">
+              <br />
+              <h4 *ngIf="user.type === 'professor'">
+                Faculty Room Assignment:
+              </h4>
+              <div *ngIf="user.type === 'professor'" class="form-inline">
                 <label for="city">Room:&nbsp; </label>
                 <input
                   class="form-control"
@@ -95,7 +119,18 @@
               </div>
             </form>
           </tab>
-          <tab heading="Edit Photos"><app-photo-editor [photos]="user.photos" (getMemberPhotoChange)="updateMainPhoto($event)"></app-photo-editor> </tab>
+          <tab heading="Edit Photos">
+            <app-photo-editor
+              [photos]="user.photos"
+              (getMemberPhotoChange)="updateMainPhoto($event)"
+            ></app-photo-editor>
+          </tab>
+
+          <tab heading="Edit Photo Schedule">
+         <app-photo-schedule [photoSchedule]="user.photoSchedule"></app-photo-schedule>
+        </tab>
+
+
         </tabset>
       </div>
     </div>

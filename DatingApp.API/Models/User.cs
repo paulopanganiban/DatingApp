@@ -35,6 +35,9 @@ namespace DatingApp.API.Models
         public string Type {get;set;}
 
         public ICollection<Photo> Photos { get; set; }
+        public ICollection<PhotoSchedule> PhotoSchedules {get;set;}
+        public ICollection<Like> Liker {get;set;}
+        public ICollection<Like> Likee {get;set;}
 
         
     }

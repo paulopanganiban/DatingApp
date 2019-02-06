@@ -1,7 +1,7 @@
 import { Photo } from './photo';
+import { PhotoSchedule } from './photo-schedule';
 
 export interface User {
-    // replicate what is returning for our user.
     id: number;
     username: string;
     department: string;
@@ -14,7 +14,7 @@ export interface User {
     photoUrl: string;
     city: string;
     country: string;
-    // ? for optional. elvis operator
+    photoSchedule?: PhotoSchedule[];
     interests?: string;
     introduction?: string;
     lookingFor?: string;
