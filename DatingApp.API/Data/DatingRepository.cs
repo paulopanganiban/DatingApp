@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DatingApp.API.Helpers;
 using DatingApp.API.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.API.Data
@@ -59,17 +60,19 @@ namespace DatingApp.API.Data
             FirstOrDefaultAsync(u => u.Id == id);
             return user;
         }
-        public async Task<PagedList<User>> GetUsers(UserParams userParams)
+        public async Task<PagedList<User>> GetUsers([FromQuery]UserParams userParams)
         {
+            // PROBLEM LIES HERE NOT RETURNING USERS
             // returns list of users
-            var users = _context.Users.Include(z => z.Photos).
-            Include(z => z.PhotoSchedules).
-            OrderByDescending(u => u.LastActive).
-            AsQueryable();
+            var users = _context.Users.Include(p => p.Photos).Include(p => p.PhotoSchedules).
+            OrderByDescending(u => u.LastActive). AsQueryable();
             users = users.Where(u => u.Id != userParams.UserId); // to not view 
             users = users.Where(u => u.Type == userParams.Type);
+          //  users = users.Where(d => d.Department == userParams.Department);
+          if (userParams.Department != null)
+          {
             users = users.Where(u => u.Department == userParams.Department);
-            // users = users.Where(u => u.Department == userParams.Department);
+          }
             //section 15 lecture 152
             if (userParams.Likers)
             {
@@ -119,38 +122,38 @@ namespace DatingApp.API.Data
             // > 0 because returns boolean
             // if = 0, nothing saves back to database, so return false and nothing do to database.
         }
-    //     public async Task<Message> GetMessage(int id)
-    //     {
-    //         return await _context.Messages.FirstOrDefaultAsync(m => m.Id == id);
-    //     }
+        public async Task<Message> GetMessage(int id)
+        {
+            return await _context.Messages.FirstOrDefaultAsync(m => m.Id == id);
+        }
 
-    //     public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
-    //     {
-    //         var messages = _context.Messages
-    //         .Include(u => u.Sender).ThenInclude(p => p.Photos)
-    //         .Include(u => u.Recipient).ThenInclude(p => p.Photos)
-    //         .AsQueryable();
+        public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
+        {
+            var messages = _context.Messages
+            .Include(u => u.Sender).ThenInclude(p => p.Photos)
+            .Include(u => u.Recipient).ThenInclude(p => p.Photos)
+            .AsQueryable();
 
-    //         switch (messageParams.MessageContainer)
-    //         {
-    //             case "Inbox":
-    //             messages = messages.Where(u => u.RecipientId == messageParams.UserId);
-    //             break;
-    //             case "Outbox":
-    //             messages = messages.Where(u => u.SenderId == messageParams.UserId);
-    //             break;
-    //             default:
-    //             messages = messages.
-    //             Where(u => u.RecipientId == messageParams.UserId && u.IsRead == false);
-    //             break;
-    //         }
-    //         messages = messages.OrderByDescending(d => d.MessageSent);
-    //         return await PagedList<Message>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
-    //     }
+            switch (messageParams.MessageContainer)
+            {
+                case "Inbox":
+                messages = messages.Where(u => u.RecipientId == messageParams.UserId);
+                break;
+                case "Outbox":
+                messages = messages.Where(u => u.SenderId == messageParams.UserId);
+                break;
+                default:
+                messages = messages.
+                Where(u => u.RecipientId == messageParams.UserId && u.IsRead == false);
+                break;
+            }
+            messages = messages.OrderByDescending(d => d.MessageSent);
+            return await PagedList<Message>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
+        }
 
-    //     public Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId)
-    //     {
-    //         throw new NotImplementedException();
-    //     }
+        public Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId)
+        {
+            throw new NotImplementedException();
+        }
      }
 }
