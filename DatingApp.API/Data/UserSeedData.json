@@ -1,6 +1,8 @@
 [
     {
       "Username": "Lola",
+      "Department": "CAS",
+      "Type": "student",
       "Gender": "female",
       "DateOfBirth": "1994-02-21",
       "Password": "password",
@@ -22,6 +24,8 @@
     },
     {
       "Username": "Dorothy",
+      "Department": "CCIS",
+      "Type": "professor",
       "Gender": "female",
       "DateOfBirth": "1979-04-19",
       "Password": "password",
@@ -43,6 +47,8 @@
     },
     {
       "Username": "Reba",
+      "Department": "CAS",
+      "Type": "professor",
       "Gender": "female",
       "DateOfBirth": "1984-12-05",
       "Password": "password",
@@ -64,6 +70,8 @@
     },
     {
       "Username": "Annmarie",
+      "Department": "CAS",
+      "Type": "professor",
       "Gender": "female",
       "DateOfBirth": "1970-02-25",
       "Password": "password",
@@ -85,6 +93,8 @@
     },
     {
       "Username": "Ashley",
+      "Department": "CAS",
+      "Type": "professor",
       "Gender": "female",
       "DateOfBirth": "1953-03-01",
       "Password": "password",
@@ -106,6 +116,8 @@
     },
     {
       "Username": "Roy",
+      "Department": "CAS",
+      "Type": "professor",
       "Gender": "male",
       "DateOfBirth": "1993-08-21",
       "Password": "password",
@@ -127,6 +139,8 @@
     },
     {
       "Username": "Duke",
+      "Department": "CAS",
+      "Type": "professor",
       "Gender": "male",
       "DateOfBirth": "1996-09-07",
       "Password": "password",
@@ -148,6 +162,8 @@
     },
     {
       "Username": "Lloyd",
+      "Department": "CAS",
+      "Type": "professor",
       "Gender": "male",
       "DateOfBirth": "1957-03-07",
       "Password": "password",
@@ -169,6 +185,8 @@
     },
     {
       "Username": "Larsen",
+      "Department": "CAS",
+      "Type": "professor",
       "Gender": "male",
       "DateOfBirth": "1969-08-15",
       "Password": "password",
@@ -190,6 +208,8 @@
     },
     {
       "Username": "Simon",
+      "Department": "CAS",
+      "Type": "professor",
       "Gender": "male",
       "DateOfBirth": "1984-02-19",
       "Password": "password",

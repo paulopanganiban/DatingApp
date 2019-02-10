@@ -14,13 +14,18 @@ export class AuthService {
   decodedToken: any;
   currentUser: User;
   photoUrl = new BehaviorSubject<string>('../../assets/user.png');
+  type: string;
   currentPhotoUrl = this.photoUrl.asObservable(); // store photo url
 constructor(private http: HttpClient) { }
 
 changeMemberPhoto(photoUrl: string) {
   this.photoUrl.next(photoUrl);
 }
-
+getMemberType() {
+  this.type = this.currentUser.type;
+  console.log(this.type);
+  return this.type;
+}
 login(model: any) {
     return this.http.post(this.baseUrl + 'login', model)
     .pipe(
@@ -33,7 +38,7 @@ login(model: any) {
           this.decodedToken = this.jwtHelper.decodeToken(user.token);
           this.currentUser = user.user;
           this.changeMemberPhoto(this.currentUser.photoUrl);
-          console.log(this.decodedToken);
+          this.getMemberType();
         }
       })
     );

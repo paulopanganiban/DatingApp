@@ -41,6 +41,8 @@ namespace DatingApp.API.Controllers
         [HttpGet("{id}", Name = "GetPhoto")]
         public async Task<IActionResult> GetPhoto(int id)
         {
+          //  var photoScheduleFromRepo = await _repo.GetPhoto(id);
+         //   var photoSchedule = _mapper.Map<PhotoForReturnDto>(photoScheduleFromRepo);
             var photoFromRepo = await _repo.GetPhoto(id);
             var photo = _mapper.Map<PhotoForReturnDto>(photoFromRepo);
             return Ok(photo);

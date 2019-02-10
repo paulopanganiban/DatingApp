@@ -12,11 +12,12 @@ export interface User {
     created: Date;
     lastActive: Date;
     photoUrl: string;
+    photoUrlSched: string;
     city: string;
     country: string;
-    photoSchedule?: PhotoSchedule[];
     interests?: string;
     introduction?: string;
     lookingFor?: string;
     photos?: Photo[];
+    photoSchedules?: PhotoSchedule[];
 }

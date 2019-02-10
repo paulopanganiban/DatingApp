@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Photo } from 'src/app/_models/photo';
 import { FileUploader } from 'ng2-file-upload';
 import { AuthService } from 'src/app/_services/auth.service';
 import { environment } from 'src/environments/environment';
@@ -12,17 +11,18 @@ import { PhotoSchedule } from 'src/app/_models/photo-schedule';
     styleUrls: ['./photo-schedule.component.css']
   })
   export class PhotoScheduleComponent implements OnInit {
-  @Input() photoSchedule: PhotoSchedule[] = [];
+  @Input() photoSchedules: PhotoSchedule[];
   @Output() getMemberPhotoChange = new EventEmitter<string>();
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
-  currentMain: Photo;
+  currentMain: PhotoSchedule;
 
   constructor(private authService: AuthService, private userService: UserService,
     private alertify: AlertifyService) { }
     ngOnInit() {
       this.initializeUploader();
+      console.log(this.photoSchedules, 'photoSchedules');
     }
   fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
@@ -42,35 +42,29 @@ import { PhotoSchedule } from 'src/app/_models/photo-schedule';
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if (response) {
-        const res: Photo = JSON.parse(response);
-        const photo = {
+        const res: PhotoSchedule = JSON.parse(response);
+        const photoSchedule = {
           id: res.id,
           url: res.url,
           dateAdded: res.dateAdded,
           description: res.description,
-          isMain: res.isMain
+          isMain: res.isMainSched
         };
-        this.photoSchedule.push(photo);
-        if (photo.isMain) {
-          this.authService.changeMemberPhoto(photo.url);
-          this.authService.currentUser.photoUrl = photo.url;
-          localStorage.setItem('user', JSON.stringify(this.authService.currentUser));
-        }
+        this.photoSchedules.push(photoSchedule);
       }
     };
   }
 
 
-  setMainPhoto(photo: Photo) {
-    this.userService.setMainPhoto(this.authService.decodedToken.nameid, photo.id).subscribe(
+  setMainPhoto(photo: PhotoSchedule) {
+    this.userService.setMainPhotoSchedule(this.authService.decodedToken.nameid, photo.id).subscribe(
       () => {
-        this.currentMain = this.photoSchedule.filter(p => p.isMain === true)[0];
-        this.currentMain.isMain = false;
-        photo.isMain = true;
-        this.authService.changeMemberPhoto(photo.url);
-        this.authService.currentUser.photoUrl = photo.url;
+        this.currentMain = this.photoSchedules.filter(p => p.isMainSched === true)[0];
+        this.currentMain.isMainSched = false;
+        photo.isMainSched = true;
         localStorage.setItem('user', JSON.stringify(this.authService.currentUser));
       }, error => {
+        console.log(error);
         this.alertify.error(error);
       }
     );
@@ -78,9 +72,9 @@ import { PhotoSchedule } from 'src/app/_models/photo-schedule';
 
   deletePhoto(id: number) {
     this.alertify.confirm('Are you sure you want to delete?', () => {
-      this.userService.deletePhoto(this.authService.decodedToken.nameid, id).
+      this.userService.deletePhotoSchedule(this.authService.decodedToken.nameid, id).
       subscribe(
-      () => {this.photoSchedule.splice(this.photoSchedule.findIndex(p => p.id === id), 1);
+      () => {this.photoSchedules.splice(this.photoSchedules.findIndex(p => p.id === id), 1);
         this.alertify.success('Photo has been deleted');
       }, error => {
         this.alertify.error(error);

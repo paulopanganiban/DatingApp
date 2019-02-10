@@ -13,7 +13,9 @@ import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gal
 export class MemberDetailComponent implements OnInit {
   user: User;
   galleryOptions: NgxGalleryOptions[];
+  galleryOptionsSched: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
+  galleryImagesSched: NgxGalleryImage[];
 
   constructor(private userService: UserService, private alertify: AlertifyService,
     private route: ActivatedRoute) { }
@@ -34,6 +36,31 @@ export class MemberDetailComponent implements OnInit {
       }
     ];
     this.galleryImages = this.getImages();
+
+    this.galleryOptionsSched = [
+      {
+        width: '500px',
+        height: '500px',
+        imagePercent: 100,
+        thumbnailsColumns: 4,
+        imageAnimation: NgxGalleryAnimation.Slide,
+        preview: false
+      }
+    ];
+    this.galleryImagesSched = this.getImagesSchedule();
+
+  }
+  getImagesSchedule() {
+    const imageUrls = [];
+    for (let i = 0; i < this.user.photoSchedules.length; i++) {
+      imageUrls.push({
+        small: this.user.photoSchedules[i].url,
+        medium: this.user.photoSchedules[i].url,
+        big: this.user.photoSchedules[i].url,
+        description: this.user.photoSchedules[i].description
+      });
+    }
+    return imageUrls;
   }
 
   getImages() {

@@ -11,7 +11,10 @@ import { Router } from '@angular/router';
 export class NavComponent implements OnInit {
   model: any = {};
   photoUrl: string;
-
+  toggle = true;
+  status = '@ Faculty';
+  // temporary
+  type: string;
   constructor(public authService: AuthService, private alertify: AlertifyService,
     private router: Router) { }
 
@@ -19,17 +22,25 @@ export class NavComponent implements OnInit {
     this.authService.currentPhotoUrl.subscribe(
       photoUrl => this.photoUrl = photoUrl
     );
+    this.type = this.authService.getMemberType();
+    console.log(this.type);
   }
   login() {
     this.authService.login(this.model).subscribe(next => {
-      this.alertify.success('Logged in succesfully');
+      this.alertify.success('Logged in succesfully'),
+      this.type = this.authService.getMemberType();
     }, error => {
       this.alertify.error(error);
     }, () => {
-      this.router.navigate(['/members']);
+      this.router.navigate(['/members']),
+      console.log(this.type);
     });
   }
-
+  onFaculty(job: string) {
+      this.toggle = !this.toggle;
+      this.status = this.toggle ? '@ Faculty' : 'Not @ Faculty';
+      console.log(this.status);
+    }
   loggedIn() {
     return this.authService.loggedIn();
   }

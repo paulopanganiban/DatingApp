@@ -63,9 +63,7 @@ namespace DatingApp.API.Controllers
                 {
                     var uploadParams = new ImageUploadParams()
                     {
-                        File = new FileDescription(file.Name, stream),
-                        Transformation = new Transformation().Width(500).Height(500).Crop("fill").
-                        Gravity("face")
+                        File = new FileDescription(file.Name, stream)
                     };
                     uploadResult = _cloudinary.Upload(uploadParams);
                 }
@@ -75,18 +73,83 @@ namespace DatingApp.API.Controllers
 
             var photoSchedule = _mapper.Map<PhotoSchedule>(photoForCreationDto);
 
-            if(!userFromRepo.PhotoSchedules.Any(u => u.IsMainCurrentSchedule))
-                photoSchedule.IsMainCurrentSchedule = true;
+            if (!userFromRepo.PhotoSchedules.Any(u => u.IsMainSched))
+                photoSchedule.IsMainSched = true;
             userFromRepo.PhotoSchedules.Add(photoSchedule);
 
-            
+
             if (await _repo.SaveAll())
             {
                 var photoToReturn = _mapper.Map<PhotoForReturnDto>(photoSchedule);
-                return CreatedAtRoute("GetPhotoSchedule", new { id = photoSchedule.Id},
+                return CreatedAtRoute("GetPhotoSchedule", new { id = photoSchedule.Id },
                 photoToReturn);
             }
             return BadRequest("Could not add the photo");
+        }
+        [HttpPost("{id}/setMain")]
+        public async Task<IActionResult> SetMainPhoto(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+            var user = await _repo.GetUser(userId);
+            if (!user.PhotoSchedules.Any(p => p.Id == id))
+            {
+                return Unauthorized();
+            }
+            var photoFromRepo = await _repo.GetPhotoSchedule(id);
+            if (photoFromRepo.IsMainSched)
+            {
+                return BadRequest("This is already the main photo");
+            }
+
+            var currentMainPhoto = await _repo.GetMainPhotoForUserSchedule(userId);
+            currentMainPhoto.IsMainSched = false;
+
+            photoFromRepo.IsMainSched = true;
+
+            if (await _repo.SaveAll())
+            {
+                return NoContent();
+            }
+            return BadRequest("Could no set photo to main");
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePhoto(int userId, int id)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+            var user = await _repo.GetUser(userId);
+            if (!user.PhotoSchedules.Any(p => p.Id == id))
+            {
+                return Unauthorized();
+            }
+            var photoFromRepo = await _repo.GetPhotoSchedule(id);
+            if (photoFromRepo.IsMainSched)
+            {
+                return BadRequest("Can't delete main photo");
+            }
+            if (photoFromRepo.PublicId != null)
+            {
+                var deleteParams = new DeletionParams(photoFromRepo.PublicId);
+                var result = _cloudinary.Destroy(deleteParams);
+                if (result.Result == "ok")
+                {
+                    _repo.Delete(photoFromRepo);
+                }
+            }
+            if (photoFromRepo.PublicId == null)
+            {
+                _repo.Delete(photoFromRepo);
+            }
+            if (await _repo.SaveAll())
+            {
+                return Ok();
+            }
+            return BadRequest("Failed to delete photo");
         }
     }
 }

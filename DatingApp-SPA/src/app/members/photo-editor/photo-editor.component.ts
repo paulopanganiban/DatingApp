@@ -5,7 +5,6 @@ import { AuthService } from 'src/app/_services/auth.service';
 import { environment } from 'src/environments/environment';
 import { UserService } from 'src/app/_services/user.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
-import { PhotoSchedule } from 'src/app/_models/photo-schedule';
 @Component({
   selector: 'app-photo-editor',
   templateUrl: './photo-editor.component.html',
@@ -25,7 +24,7 @@ export class PhotoEditorComponent implements OnInit {
 
   ngOnInit() {
     this.initializeUploader();
-    console.log(this.photos);
+    console.log(this.photos, 'photoEditor');
   }
   fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;

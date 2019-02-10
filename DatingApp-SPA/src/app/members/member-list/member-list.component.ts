@@ -14,9 +14,11 @@ import { Pagination, PaginatedResult } from '../../_models/Pagination';
 export class MemberListComponent implements OnInit {
   users: User[];
   user: User = JSON.parse(localStorage.getItem('user'));
-  departmentList = [
-                    {value: 'CCIS', display: 'CCIS'},
-                    {value: 'CAS', display: 'CAS'}];
+  departmentList = [{value: 'CCIS', display: 'CCIS'},
+  {value: 'CAS', display: 'CAS'},
+  {value: 'MITL', display: 'MITL'},
+  {value: 'ETY', display: 'ETY'},
+  {value: 'CMET', display: 'CMET'}];
   userParams: any = {};
   pagination: Pagination;
 
@@ -24,6 +26,8 @@ export class MemberListComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
+    // this gets the user data and pass it to child components via @input
+    // [userFromChild] = user
     this.route.data.subscribe(data => {
       this.users = data['users'].result;
       this.pagination = data['users'].pagination;
@@ -36,6 +40,21 @@ export class MemberListComponent implements OnInit {
     if (this.user.department === 'CAS') {
       console.log(this.user.department);
       this.userParams.department = 'CAS';
+      console.log(this.userParams.department);
+    }
+    if (this.user.department === 'MITL') {
+      console.log(this.user.department);
+      this.userParams.department = 'MITL';
+      console.log(this.userParams.department);
+    }
+    if (this.user.department === 'ETY') {
+      console.log(this.user.department);
+      this.userParams.department = 'ETY';
+      console.log(this.userParams.department);
+    }
+    if (this.user.department === 'CMET') {
+      console.log(this.user.department);
+      this.userParams.department = 'CMET';
       console.log(this.userParams.department);
     }
   }

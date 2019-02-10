@@ -5,6 +5,7 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 import { NgForm } from '@angular/forms';
 import { UserService } from 'src/app/_services/user.service';
 import { AuthService } from 'src/app/_services/auth.service';
+import { PhotoSchedule } from 'src/app/_models/photo-schedule';
 
 @Component({
   selector: 'app-member-edit',
@@ -13,10 +14,14 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class MemberEditComponent implements OnInit {
 departmentList = [{value: 'CCIS', display: 'CCIS'},
-                    {value: 'CAS', display: 'CAS'}];
+                    {value: 'CAS', display: 'CAS'},
+                    {value: 'MITL', display: 'MITL'},
+                    {value: 'ETY', display: 'ETY'},
+                    {value: 'CMET', display: 'CMET'}];
 user: User;
-photoSchedule: User[];
+photoSchedule;
 photoUrl: string;
+photoUrlSched: string;
 @ViewChild('editForm') editForm: NgForm;
   constructor(private route: ActivatedRoute,
     private alertify: AlertifyService, private userService: UserService,
@@ -34,6 +39,8 @@ photoUrl: string;
       this.user = data['user'];
     });
     this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
+  //  this.authService.currentPhotoUrl.subscribe(photoUrlSched => this.photoUrlSched = photoUrlSched);
+   // this.photoSchedule = this.authService.currentUser.photoSchedules;
   }
 
   updateUser() {

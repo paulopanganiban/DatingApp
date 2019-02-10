@@ -18,6 +18,10 @@
       </ul>
   
       <div *ngIf="loggedIn()" class="dropdown" dropdown>
+        <span *ngIf="type === 'professor'">
+        <button [ngClass]="{'green' : toggle, 'red': !toggle}" (click)="onFaculty()" class="btn btn-success btn-sm">{{status}}
+        </button>
+      </span>
         <span class="mr-1">
           <img src="{{photoUrl || '../../assets/user.png'}}">
         </span>
